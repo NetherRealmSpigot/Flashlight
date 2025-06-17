@@ -1,6 +1,6 @@
 const MAGIC: u32 = 0x100;
 
-pub fn decode(q: &[u8], k1: u8, k2: u8) -> String {
+pub fn decode_str(q: &[u8], k1: u8, k2: u8) -> String {
     let mut s = String::new();
     let mut i = 0usize;
     let len = q.len();
@@ -23,11 +23,11 @@ pub fn decode(q: &[u8], k1: u8, k2: u8) -> String {
     s
 }
 
-pub fn encode_from_slice(s: &str, k1: u8, k2: u8) -> Vec<u8> {
-    encode_from_heap(String::from(s), k1, k2)
+pub fn encode_str_from_slice(s: &str, k1: u8, k2: u8) -> Vec<u8> {
+    encode_str_from_heap(String::from(s), k1, k2)
 }
 
-pub fn encode_from_heap(s: String, k1: u8, k2: u8) -> Vec<u8> {
+pub fn encode_str_from_heap(s: String, k1: u8, k2: u8) -> Vec<u8> {
     let bytes = s.as_bytes();
     let len = bytes.len();
     let mut q = Vec::with_capacity(len);
