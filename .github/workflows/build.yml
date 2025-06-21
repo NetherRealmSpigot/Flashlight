@@ -43,13 +43,12 @@ jobs:
           override: true
 
       - name: Install cargos
-        run: |
-          cargo install cargo-tarpaulin
+        run: cargo install cargo-tarpaulin
 
       - name: Run test
         run: |
-          cargo build --verbose
-          cargo tarpaulin --run-types AllTargets --out lcov
+          cargo tarpaulin --force-clean --release --frozen --run-types AllTargets --out lcov
+          cargo build --release --verbose --frozen
 
       - name: Write job summary
         uses: livewing/lcov-job-summary@v1.2.0
@@ -62,7 +61,8 @@ jobs:
         with:
           name: build-and-test-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.runner_label }}
           path: |
-            ./target
+            ./target/debug
+            ./target/release
             ./lcov.info
           retention-days: 1
           overwrite: true
