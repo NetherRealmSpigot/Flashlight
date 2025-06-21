@@ -12,14 +12,17 @@ pub fn create_varint(num: &i32) -> Vec<u8> {
     buf
 }
 
-pub fn decode_varint(q: &[u8]) -> i32 {
+pub fn decode_varint(q: &[u8]) -> Result<i32, &'static str> {
     let len = q.len();
+    if len == 0 || len > 5 {
+        return Err("a varint is no more than 5 bytes")
+    }
     let mut res = 0i32;
-    for i in 0..len {
-        res = res | (((q[i] as i32) & 0x7Fi32) << (7 * i));
-        if ((q[i] as i32) & 0x80i32) == 0 {
+    for (i, item) in q.iter().enumerate() {
+        res |= ((*item as i32) & 0x7Fi32) << (7 * i);
+        if ((*item as i32) & 0x80i32) == 0 {
             break
         }
     }
-    res
+    Ok(res)
 }

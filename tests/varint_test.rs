@@ -15,28 +15,25 @@ fn test_create_varint() {
     assert_eq!(create_varint(&-2147483648), vec![128, 128, 128, 128, 8]);
 }
 
+fn test_decode_varint0(t: Vec<u8>, r: i32) {
+    let res = decode_varint(&t);
+    assert!(res.is_ok());
+    let res = res.unwrap();
+    assert_eq!(res, r);
+}
+
 #[test]
 fn test_decode_varint() {
-    let t : Vec<u8> = vec![0];
-    assert_eq!(decode_varint(&t), 0);
-    let t : Vec<u8> = vec![1];
-    assert_eq!(decode_varint(&t), 1);
-    let t : Vec<u8> = vec![2];
-    assert_eq!(decode_varint(&t), 2);
-    let t : Vec<u8> = vec![127];
-    assert_eq!(decode_varint(&t), 127);
-    let t : Vec<u8> = vec![128, 1];
-    assert_eq!(decode_varint(&t), 128);
-    let t : Vec<u8> = vec![255, 1];
-    assert_eq!(decode_varint(&t), 255);
-    let t : Vec<u8> = vec![221, 199, 1];
-    assert_eq!(decode_varint(&t), 25565);
-    let t : Vec<u8> = vec![255, 255, 127];
-    assert_eq!(decode_varint(&t), 2097151);
-    let t : Vec<u8> = vec![255, 255, 255, 255, 7];
-    assert_eq!(decode_varint(&t), 2147483647);
-    let t : Vec<u8> = vec![255, 255, 255, 255, 15];
-    assert_eq!(decode_varint(&t), -1);
-    let t : Vec<u8> = vec![128, 128, 128, 128, 8];
-    assert_eq!(decode_varint(&t), -2147483648);
+    assert!(decode_varint(&vec![0, 0, 0, 0, 0, 0]).is_err());
+    test_decode_varint0(vec![0], 0);
+    test_decode_varint0(vec![1], 1);
+    test_decode_varint0(vec![2], 2);
+    test_decode_varint0(vec![127], 127);
+    test_decode_varint0(vec![128, 1], 128);
+    test_decode_varint0(vec![255, 1], 255);
+    test_decode_varint0(vec![221, 199, 1], 25565);
+    test_decode_varint0(vec![255, 255, 127], 2097151);
+    test_decode_varint0(vec![255, 255, 255, 255, 7], 2147483647);
+    test_decode_varint0(vec![255, 255, 255, 255, 15], -1);
+    test_decode_varint0(vec![128, 128, 128, 128, 8], -2147483648);
 }
