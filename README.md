@@ -3,4 +3,6 @@
 ## Features
 
 - Encode strings.
-- Decode strings.
+- Decode bytes.
+- Create varint.
+- Decode varint.
