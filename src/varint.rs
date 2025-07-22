@@ -1,5 +1,5 @@
-pub fn create_varint(num: &i32) -> Vec<u8> {
-    let mut v = *num;
+pub fn create_varint(num: i32) -> Vec<u8> {
+    let mut v = num;
     let mut buf : Vec<u8> = Vec::with_capacity(5usize);
     for _ in 0..5 {
         if v & (!0x7Fi32) == 0 {
