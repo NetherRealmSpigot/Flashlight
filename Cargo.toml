@@ -6,4 +6,8 @@ publish = false
 license-file = "LICENSE"
 readme = "README.md"
 
+[lib]
+name = "flashlight"
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]

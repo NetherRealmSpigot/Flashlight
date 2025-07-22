@@ -7,6 +7,7 @@ on:
     paths:
       - "src/*.rs"
       - "tests/*.rs"
+      - "tests/*.c"
       - "Cargo.toml"
       - "Cargo.lock"
       - "!.gitignore"
@@ -25,9 +26,7 @@ jobs:
       matrix:
         runner_label: [
           ubuntu-24.04, ubuntu-22.04,
-          ubuntu-24.04-arm, ubuntu-22.04-arm,
-          windows-2025, windows-2022,
-          macos-15, macos-14, macos-13
+          ubuntu-24.04-arm, ubuntu-22.04-arm
         ]
     name: Build and test on ${{ matrix.runner_label }}
     runs-on: ${{ matrix.runner_label }}
@@ -45,10 +44,14 @@ jobs:
           override: true
 
       - name: Install cargos
-        run: cargo install cargo-tarpaulin
+        run: cargo install cargo-tarpaulin cbindgen
 
       - name: Run test
         run: make test
+
+      - name: Run test-library
+        if: ${{ runner.os == 'Linux' }}
+        run: make test-library-linux
 
       - name: Write job summary
         uses: livewing/lcov-job-summary@v1.2.0

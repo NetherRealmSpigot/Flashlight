@@ -6,3 +6,4 @@ pub use varint::decode_varint;
 
 mod str;
 mod varint;
+mod c_varint;

@@ -1,0 +1,7 @@
+language = "C"
+include_guard = "_FLASHLIGHT_H_"
+sys_includes = ["stdio.h"]
+
+[parse]
+parse_deps = false
+clean = true
